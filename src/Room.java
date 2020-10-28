@@ -101,4 +101,29 @@ public class Room
         items.add(item);
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
+
+    public Item getItemFromString(String item) {
+        if(!items.isEmpty()) {
+            Item tempItem;
+            for (int i = 0; i< items.size(); i++) {
+                tempItem = items.get(i);
+                if(tempItem.getName().equals(item)) {
+                    return tempItem;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void removeItemFromString(String item){
+        items.remove(getItemFromString(item));
+    }
+
+    public void removeItem (Item item) {
+        items.remove(item);
+    }
 }

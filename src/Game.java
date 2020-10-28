@@ -21,14 +21,20 @@ import java.util.List;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
+    private Player p1;
+
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
+        createPlayer();
         createRooms();
         parser = new Parser();
+    }
+
+    private void createPlayer() {
+        p1 = new Player();
     }
 
     /**
@@ -36,24 +42,23 @@ public class Game
      */
     private void createRooms()
     {
-        Room Entrance, Cave1;
+        Room Entrance, Cave1, L1;
       
         // create the rooms
         Entrance = new Room("You're standing in the Entrance to the dungeon");
         Cave1 = new Room("You enter a cave with 3 openings");
-
-
-
+        L1 = new Room("You enter a dark cave, you hear strange sounds coming from the left");
         
         // initialise room exits
         Entrance.setExit("north", Cave1);
-        Cave1.setExit("south", Entrance);
+        Cave1.setExit("south", Entrance); Cave1.setExit("left", L1);
+        L1.setExit("right", Cave1);
 
         // add items to rooms;
-        Cave1.addItems(new Item("sandwich", 0.3));
+        L1.addItems(new MagicCookie());
 
-
-        currentRoom = Entrance;  // start game outside
+        //Sets the starting Room of the player
+        p1.setCurrentRoom(Entrance);
     }
 
     /**
@@ -84,7 +89,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
+        p1.printLocationInfo();
     }
 
     /**
@@ -106,13 +111,25 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            p1.goRoom(command);
         }
         else if (commandWord.equals("look")) {
-            look();
+            p1.look();
         }
         else if (commandWord.equals("eat")) {
-            eat();
+            p1.eat(command);
+        }
+        else if (commandWord.equals("back")) {
+            p1.back();
+        }
+        else if (commandWord.equals("take")){
+            p1.pickUp(command);
+        }
+        else if (commandWord.equals("drop")){
+            p1.dropItem(command);
+        }
+        else if (commandWord.equals("items")){
+            p1.inventoryToString();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -122,6 +139,12 @@ public class Game
     }
 
     // implementations of user commands:
+    /**
+     * Try to go in one direction. If there is an exit, enter
+     * the new room, otherwise print an error message.
+     */
+
+
 
     /**
      * Print out some help information.
@@ -134,48 +157,8 @@ public class Game
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
+        System.out.println(".\n");
     }
-
-    /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            currentRoom = nextRoom;
-            printLocationInfo();
-        }
-    }
-
-    private void look()
-    {
-        System.out.println(currentRoom.getLongDescription());
-    }
-
-    private void printLocationInfo() {
-        System.out.println(currentRoom.getLongDescription());
-    }
-
-    private void eat() {
-        System.out.println("You have eaten now and you are not hungry any more.”");
-    }
-
-
 
     /** 
      * "Quit" was entered. Check the rest of the command to see
