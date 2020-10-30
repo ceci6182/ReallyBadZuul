@@ -7,7 +7,7 @@ public class MagicCookie extends Item {
         this.setName("cookie");
         this.setWeight(2);
         this.setCanBePickedUp(true);
-        this.setDescription("This is a cookie, unlike most. it's larger than you would expect and also it's blue and magic.");
+        this.setDescription("This is a cookie, unlike most. it's larger than you would expect and also it's magic.");
         this.setCanBeEaten(true);
     }
 

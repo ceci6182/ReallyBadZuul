@@ -32,7 +32,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        exits = new HashMap<String, Room>();
+        exits = new HashMap<>();
         items = new ArrayList<>();
     }
 
@@ -88,8 +88,8 @@ public class Room
           }
           else {
               roomDescription += "You notice multiple items"  + ".\n" + "you've found";
-              for (int i=0; i<items.size();i++){
-                  roomDescription += ".\n" + items.get(i).itemDescription();
+              for (Item item : items) {
+                  roomDescription += ".\n" + item.itemDescription();
               }
           }
         }
@@ -107,11 +107,9 @@ public class Room
 
 
     public Item getItemFromString(String item) {
-        if(!items.isEmpty()) {
-            Item tempItem;
-            for (int i = 0; i< items.size(); i++) {
-                tempItem = items.get(i);
-                if(tempItem.getName().equals(item)) {
+        if(!items.isEmpty()){
+            for (Item tempItem : items) {
+                if (tempItem.getName().equals(item)) {
                     return tempItem;
                 }
             }

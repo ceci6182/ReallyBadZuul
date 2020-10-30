@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -107,32 +104,16 @@ public class Game
         }
 
         String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("go")) {
-            p1.goRoom(command);
-        }
-        else if (commandWord.equals("look")) {
-            p1.look();
-        }
-        else if (commandWord.equals("eat")) {
-            p1.eat(command);
-        }
-        else if (commandWord.equals("back")) {
-            p1.back();
-        }
-        else if (commandWord.equals("take")){
-            p1.pickUp(command);
-        }
-        else if (commandWord.equals("drop")){
-            p1.dropItem(command);
-        }
-        else if (commandWord.equals("items")){
-            p1.inventoryToString();
-        }
-        else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
+        switch (commandWord) {
+            case "help" -> printHelp();
+            case "go" -> p1.goRoom(command);
+            case "look" -> p1.look();
+            case "eat" -> p1.eat(command);
+            case "back" -> p1.back();
+            case "take" -> p1.pickUp(command);
+            case "drop" -> p1.dropItem(command);
+            case "items" -> p1.inventoryToString();
+            case "quit" -> wantToQuit = quit(command);
         }
 
         return wantToQuit;

@@ -15,10 +15,6 @@ public class Player {
         inventory =new ArrayList<>();
     }
 
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
@@ -86,10 +82,8 @@ public class Player {
 
     public Item getItemFromString(String item) {
         if(!inventory.isEmpty()) {
-            Item tempItem;
-            for (int i = 0; i< inventory.size(); i++) {
-                tempItem = inventory.get(i);
-                if(tempItem.getName().equals(item)) {
+            for (Item tempItem : inventory) {
+                if (tempItem.getName().equals(item)) {
                     return tempItem;
                 }
             }
@@ -170,8 +164,8 @@ public class Player {
            inventoryString =  "Your inventory is empty";
         }
         else{
-            for (int i =0; i<inventory.size(); i++) {
-                inventoryString += "\n" +inventory.get(i).getName();
+            for (Item item : inventory) {
+                inventoryString += "\n" + item.getName();
             }
         }
         inventoryString += "\n" + "your inventory capacity is now at " + currentInventory +  "/" + inventoryCapacity;
